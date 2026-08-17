@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+
+usage() {
+  cat <<'EOF'
+Usage: dotctl <status|verify|catalog|test|ci>
+
+The public blueprint intentionally exposes only offline, catalog-driven commands.
+Infrastructure and secret actions require separate local configuration and explicit approval.
+EOF
+}
+
+status() {
+  printf 'Blueprint root: %s\n' "$root_dir"
+  printf 'Workspace check: run scripts/verify_native_workspace.sh <native-workspace> locally.\n'
+  printf 'Public-safety gate: scripts/validate_public_repo.sh\n'
+  printf 'Infrastructure status: intentionally not connected in this public blueprint.\n'
+}
+
+verify() {
+  "$root_dir/scripts/validate_public_repo.sh" "$root_dir"
+}
+
+catalog() {
+  column -t -s $'\t' "$root_dir/config/commands.tsv"
+}
+
+test() {
+  "$root_dir/tests/validate-catalog.sh" "$root_dir"
+  "$root_dir/scripts/validate_public_repo.sh" "$root_dir"
+}
+
+case "${1:-}" in
+  status) status ;;
+  verify) verify ;;
+  catalog) catalog ;;
+  test|ci) test ;;
+  *) usage; exit 2 ;;
+esac

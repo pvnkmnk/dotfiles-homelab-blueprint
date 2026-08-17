@@ -1,0 +1,17 @@
+---
+- name: Public-safe Proxmox service blueprint safety stop
+  hosts: homelab
+  gather_facts: false
+  tasks:
+    - name: Require an explicit approved guest-change record
+      ansible.builtin.assert:
+        that:
+          - approved_change_id is defined
+          - approved_change_id | length > 0
+        fail_msg: >-
+          This public blueprint does not create or modify guests. Record exact approved
+          parameters locally before replacing this safety stop with idempotent tasks.
+
+    - name: State the intentionally non-deploying behavior
+      ansible.builtin.debug:
+        msg: "Approval reference {{ approved_change_id }} recorded; no infrastructure action executed."

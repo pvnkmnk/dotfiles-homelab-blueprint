@@ -1,0 +1,7 @@
+id	label	classification	description
+status	Control-plane status	read-only	Show the blueprint scope and local verification boundary.
+verify	Public-safety verification	read-only	Scan the public repository for common sensitive-data patterns.
+catalog	Approved command catalog	read-only	List catalog IDs instead of accepting arbitrary commands.
+test	Offline quality gate	read-only	Validate catalog structure and publication safety.
+proposal	Guest change proposal	planning-only	Prepare a non-secret exact-parameter request; never create a guest.
+secret-contract	Secret contract review	planning-only	Review non-secret scope and lifecycle metadata; never reveal a value.

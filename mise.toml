@@ -1,0 +1,22 @@
+[env]
+PROJECT_KIND = "public-dotfiles-homelab-blueprint"
+
+[tasks.status]
+description = "Show the public blueprint control-plane status"
+run = "bin/dotctl status"
+
+[tasks.verify]
+description = "Run offline public-blueprint validation"
+run = "bin/dotctl verify"
+
+[tasks.catalog]
+description = "List approved command catalog entries"
+run = "bin/dotctl catalog"
+
+[tasks.test]
+description = "Run offline catalog and public-safety checks"
+run = "bin/dotctl test"
+
+[tasks.ci]
+description = "Run the offline public-blueprint quality gate"
+run = "bin/dotctl ci"

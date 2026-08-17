@@ -1,0 +1,8 @@
+all:
+  children:
+    homelab:
+      hosts:
+        <proxmox-node-or-guest>:
+          ansible_host: <lan-address-or-vpn-name>
+          ansible_user: <non-root-operator>
+          ansible_ssh_private_key_file: <owner-only-key-path>

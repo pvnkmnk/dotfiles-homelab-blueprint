@@ -12,6 +12,10 @@ This repository is a **public-safe blueprint** for a Windows workstation, a nati
 | Proxmox | Read-first guest, storage, network, and backup planning | `ansible/`, `docs/proxmox-approval-gate.md` | Confirm exact guest parameters before state changes |
 | Secrets | Project-scoped machine accounts and trusted runtime injection | `secrets/contracts/`, `docs/bitwarden-machine-accounts.md` | Create tokens locally and keep values out of files and logs |
 
+## Relationship to the operational sources of truth
+
+This repository is a **sanitized reference projection**, not the operator’s configuration authority. The private [`pvnkmnk/dotfiles`](https://github.com/pvnkmnk/dotfiles) repository owns the personal Windows/WSL control plane; [`pvnkmnk/homelab-proxmox-ansible`](https://github.com/pvnkmnk/homelab-proxmox-ansible) owns reviewed service topology and recovery evidence; and [`pvnkmnk/AgenticSelfHostSkills`](https://github.com/pvnkmnk/AgenticSelfHostSkills) owns reusable agent behavior. Promote a pattern into the private operational repositories only after review; publish it here only through a fresh redaction review. Never use this blueprint as a deployment target for a live host.
+
 ## Quick start
 
 Clone the repository into a **native Linux filesystem** inside your WSL distribution. Begin from a Windows shell at `C:\` when launching WSL, then run the workspace verification script and review the commands that would be enabled. The examples deliberately stop before installing software, creating guests, or delivering secrets.

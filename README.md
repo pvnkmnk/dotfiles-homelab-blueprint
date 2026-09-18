@@ -35,6 +35,7 @@ No hostnames, private addresses, guest identifiers, storage allocations, account
 | Document | Use it for |
 |---|---|
 | [`docs/architecture.md`](docs/architecture.md) | System boundaries and service-placement choices |
+| [`docs/homelab-hardware-specs.md`](docs/homelab-hardware-specs.md) | Observed hardware on both planes and the workload constraints each one imposes |
 | [`docs/wsl-workspace.md`](docs/wsl-workspace.md) | Native WSL authority and Windows-to-WSL execution safety |
 | [`docs/proxmox-approval-gate.md`](docs/proxmox-approval-gate.md) | Read-only inventory and exact guest-change approval |
 | [`docs/bitwarden-machine-accounts.md`](docs/bitwarden-machine-accounts.md) | Machine account scope, `bws` injection, rotation, and recovery |

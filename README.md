@@ -1,46 +1,50 @@
 # Dotfiles and Homelab Blueprint
 
-This repository is a **public-safe blueprint** for a Windows workstation, a native WSL development plane, and a small Proxmox homelab. It shows how to keep a narrow `dotctl` command surface, pin and validate tools through `mise`, present approved actions through Television, scope machine secrets through Bitwarden Secrets Manager, and gate infrastructure changes before execution. It is intentionally **not** a copy of any live environment.
+This repository is a **public reusable blueprint** for a Windows workstation, a native WSL development plane, and a small Proxmox homelab. It illustrates a narrow `dotctl` command surface, tool pinning and validation through `mise`, curated command catalogs, scoped machine-secret contracts, and approval-gated infrastructure changes. It is a template, not a copy of any live environment.
 
-> This project contains patterns and placeholder configuration only. Replace every `<placeholder>` with local values, keep secrets outside Git, and obtain an explicit approval record before changing any infrastructure.
+> The checked-in files contain generic patterns and placeholders. Keep completed local inventory private, keep secrets outside Git, label evidence and timestamps, and obtain explicit approval before changing infrastructure.
 
 | Layer | Purpose | Public artifact | Local responsibility |
 |---|---|---|---|
-| Windows and WSL | Creator workstation and authoritative Linux workspace | `docs/wsl-workspace.md`, `scripts/verify_native_workspace.sh` | Choose the distribution and native workspace path |
-| Tool control plane | Versioned tools and stable task entrypoints | `mise.toml`, `bin/dotctl` | Pin tools and verify downloads in the local environment |
-| Command palette | Curated discovery rather than arbitrary shell launch | `config/commands.tsv` | Wire Television to approved catalog IDs only |
-| Proxmox | Read-first guest, storage, network, and backup planning | `ansible/`, `docs/proxmox-approval-gate.md` | Confirm exact guest parameters before state changes |
-| Secrets | Project-scoped machine accounts and trusted runtime injection | `secrets/contracts/`, `docs/bitwarden-machine-accounts.md` | Create tokens locally and keep values out of files and logs |
+| Windows and WSL | Example creator workstation and native Linux workspace | `docs/wsl-workspace.md`, `scripts/verify_native_workspace.sh` | Choose the distribution and local workspace path |
+| Tool control plane | Versioned tools and stable task entrypoints | `mise.toml`, `bin/dotctl` | Pin tools and verify downloads locally |
+| Command palette | Curated discovery rather than arbitrary shell launch | `config/commands.tsv` | Wire a launcher to approved catalog IDs only |
+| Proxmox | Read-first guest, storage, network, and backup planning | `ansible/`, `docs/proxmox-approval-gate.md` | Verify exact local state before proposing changes |
+| Evidence | Distinguish observation, report, design, and unknowns | `docs/evidence-labels.md`, `docs/homelab-hardware-specs.md` | Record source, scope, and observation time in a private copy |
+| Secrets | Project-scoped machine accounts and runtime injection patterns | `secrets/contracts/`, `docs/bitwarden-machine-accounts.md` | Create credentials locally; keep values out of files and logs |
 
-## Relationship to the operational sources of truth
+## Relationship to operational sources of truth
 
-This repository is a **sanitized reference projection**, not the operator’s configuration authority. The private [`pvnkmnk/dotfiles`](https://github.com/pvnkmnk/dotfiles) repository owns the personal Windows/WSL control plane; [`pvnkmnk/homelab-proxmox-ansible`](https://github.com/pvnkmnk/homelab-proxmox-ansible) owns reviewed service topology and recovery evidence; and [`pvnkmnk/AgenticSelfHostSkills`](https://github.com/pvnkmnk/AgenticSelfHostSkills) owns reusable agent behavior. Promote a pattern into the private operational repositories only after review; publish it here only through a fresh redaction review. Never use this blueprint as a deployment target for a live host.
+This repository is a **sanitized reference template**, not an operator's configuration authority. Keep the actual inventory, private topology, secret contracts, and change approvals in the appropriate private operational system. Promote a pattern into that system only after review; publish it here only after a fresh redaction review. Never use this blueprint as a deployment target for a live host.
 
 ## Quick start
 
-Clone the repository into a **native Linux filesystem** inside your WSL distribution. Begin from a Windows shell at `C:\` when launching WSL, then run the workspace verification script and review the commands that would be enabled. The examples deliberately stop before installing software, creating guests, or delivering secrets.
+Clone the repository into a **native Linux filesystem** inside your WSL distribution. Begin from a Windows shell when launching WSL, then run the workspace verification script and review the commands that would be enabled. The examples deliberately stop before installing software, creating guests, or delivering secrets.
 
 ```text
-Windows shell at C:\ → native WSL workspace probe → mise task review → approved local bootstrap
+Windows shell → native WSL workspace probe → mise task review → approved local bootstrap
 ```
 
 The repository is structured for safe customization. `mise.toml` defines a small task surface; `bin/dotctl` routes only known actions; `config/commands.tsv` is the catalog source; and `secrets/contracts/` records names, scope, lifecycle, and recovery information without recording values.
 
 ## What is deliberately absent
 
-No hostnames, private addresses, guest identifiers, storage allocations, account names, media paths, secret values, API tokens, browser profiles, private keys, credential stores, or private Git history are published. The related reusable operational skills are released separately in the public [AgenticSelfHostSkills](https://github.com/pvnkmnk/AgenticSelfHostSkills) repository.
+The **current checked-in tree** is intended to omit owner-specific hostnames, private addresses, guest identifiers, storage allocations, account names, media paths, secret values, API tokens, browser profiles, private keys, credential stores, and personal filesystem paths. This documentation update does not rewrite Git history: earlier public commits may retain owner-specific hardware details or repository names. See [`PUBLICATION_BOUNDARY.md`](PUBLICATION_BOUNDARY.md) for the limits of this cleanup and the review required before publication.
+
+The repository's scanner is a heuristic for a limited set of patterns in the working tree. A passing result is not proof of complete current-tree cleanliness, does not inspect Git history, and does not replace human review.
 
 ## Documentation map
 
 | Document | Use it for |
 |---|---|
-| [`docs/architecture.md`](docs/architecture.md) | System boundaries and service-placement choices |
-| [`docs/homelab-hardware-specs.md`](docs/homelab-hardware-specs.md) | Observed hardware on both planes and the workload constraints each one imposes |
+| [`docs/architecture.md`](docs/architecture.md) | Generic system boundaries and service-placement choices |
+| [`docs/homelab-hardware-specs.md`](docs/homelab-hardware-specs.md) | Blank, evidence-labeled local hardware worksheet; no owner hardware is recorded |
+| [`docs/evidence-labels.md`](docs/evidence-labels.md) | Reusable labels for observed, reported, designed, and unknown facts |
 | [`docs/wsl-workspace.md`](docs/wsl-workspace.md) | Native WSL authority and Windows-to-WSL execution safety |
 | [`docs/proxmox-approval-gate.md`](docs/proxmox-approval-gate.md) | Read-only inventory and exact guest-change approval |
-| [`docs/bitwarden-machine-accounts.md`](docs/bitwarden-machine-accounts.md) | Machine account scope, `bws` injection, rotation, and recovery |
-| [`docs/deployment-roadmap.md`](docs/deployment-roadmap.md) | Staged remaining deployment work |
-| [`PUBLICATION_BOUNDARY.md`](PUBLICATION_BOUNDARY.md) | What this public snapshot includes and excludes |
+| [`docs/bitwarden-machine-accounts.md`](docs/bitwarden-machine-accounts.md) | Machine account scope, injection, rotation, and recovery patterns |
+| [`docs/deployment-roadmap.md`](docs/deployment-roadmap.md) | Example staged deployment planning |
+| [`PUBLICATION_BOUNDARY.md`](PUBLICATION_BOUNDARY.md) | What this public snapshot includes, excludes, and cannot certify |
 
 ## References
 

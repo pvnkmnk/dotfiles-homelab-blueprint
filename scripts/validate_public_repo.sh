@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Heuristic scan of readable working-tree files only. It excludes .git history
+# and this script; a pass is not a complete privacy or secret-safety review.
+
 root=${1:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}
 [[ -d "$root" ]] || { printf 'Missing root: %s\n' "$root" >&2; exit 2; }
 
@@ -11,4 +14,4 @@ if grep -RIniE --exclude='validate_public_repo.sh' --exclude-dir=.git -- "$patte
   exit 1
 fi
 
-printf 'Public-safety scan passed: no matching credential, private-network, or personal-path patterns.\n'
+printf 'Heuristic working-tree pattern scan passed: no listed credential, private-network, or personal-path patterns matched. This does not certify the tree or inspect Git history.\n'
